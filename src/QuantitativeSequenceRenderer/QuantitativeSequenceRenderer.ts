@@ -43,18 +43,51 @@ export default function rendererFactory(pluginManager: PluginManager) {
       const toHeight = (n: number) => toY(originY) - toY(n)
 
       console.log({ features })
+      
+      // Use a fixed base font size for consistent width
+      const baseFontSize = 20
+      ctx.font = `bold ${baseFontSize}px sans-serif`
       ctx.textAlign = 'center'
+      ctx.textBaseline = 'alphabetic'
+      
       for (const feature of features.values()) {
         const [leftPx, rightPx] = featureSpanPx(feature, region, bpPerPx)
-        const w = rightPx - leftPx + 0.4 // fudge factor for subpixel rendering
         const score = feature.get('score') as number
         const base = feature.get('base')
+        const letterHeight = Math.abs(toHeight(score))
+        
+        // Calculate how much to scale the letter vertically
+        // Divide by baseFontSize to get the scale factor
+        const heightScale = letterHeight / baseFontSize
+        
+        // Set color for the letter
         ctx.fillStyle = getColor(base)
-        ctx.fillRect(leftPx, toY(score), w, toHeight(score))
-        ctx.fillStyle = '#000'
-        if (1 / bpPerPx > 5) {
-          ctx.fillText(base, leftPx + (rightPx - leftPx) / 2, toY(score) - 2)
+        
+        // Calculate center position for horizontal alignment
+        const centerX = leftPx + (rightPx - leftPx) / 2
+        const baselineY = toY(originY)
+        
+        ctx.save()
+        
+        // Translate to the baseline at center X
+        ctx.translate(centerX, baselineY)
+        
+        // Scale only the Y direction based on score
+        // Canvas Y axis points downward, so:
+        // - Positive scores: use positive scale to stretch upward (text draws above baseline)
+        // - Negative scores: use negative scale to flip and stretch downward
+        if (score >= 0) {
+          // Positive: stretch upward (normal direction)
+          ctx.scale(1, heightScale)
+        } else {
+          // Negative: flip and stretch downward
+          ctx.scale(1, -heightScale)
         }
+        
+        // Draw at origin (0, 0) which is now at centerX, baselineY with scaling applied
+        ctx.fillText(base, 0, 0)
+        
+        ctx.restore()
       }
 
       if (displayCrossHatches) {

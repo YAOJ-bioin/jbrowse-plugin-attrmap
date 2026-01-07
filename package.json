@@ -1,12 +1,12 @@
 {
-  "version": "0.0.6",
-  "name": "jbrowse-plugin-quantseq",
+  "version": "0.1.0",
+  "name": "jbrowse-plugin-attrmap",
   "keywords": [
     "jbrowse",
     "jbrowse2"
   ],
   "main": "dist/index.js",
-  "module": "dist/jbrowse-plugin-quantseq.esm.js",
+  "module": "dist/jbrowse-plugin-attrmap.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist",
@@ -15,9 +15,9 @@
   "scripts": {
     "setup": "node scripts/setup.js && npm run browse-install",
     "clean": "rimraf dist",
-    "start": "tsdx watch --verbose --noClean --format umd --name JBrowsePluginQuantseq --onFirstSuccess \"yarn serve --cors --listen 9000 .\"",
+    "start": "tsdx watch --verbose --noClean --format umd --name JBrowsePluginAttrMap --onFirstSuccess \"yarn serve --cors --listen 9000 .\"",
     "prebuild": "npm run clean",
-    "build": "tsdx build --format cjs,esm,umd --name JBrowsePluginQuantseq",
+    "build": "tsdx build --format cjs,esm,umd --name JBrowsePluginAttrMap",
     "browse-install": "cd .jbrowse && rm -rf * && jbrowse create .",
     "browse": "cd .jbrowse && cp ../jbrowse_config.json . && mv jbrowse_config.json config.json && npx serve .",
     "test": "tsdx test --passWithNoTests",
@@ -31,7 +31,7 @@
     "postversion": "git push --follow-tags"
   },
   "jbrowse-plugin": {
-    "name": "Quantseq"
+    "name": "AttrMap"
   },
   "prettier": {
     "semi": false,
@@ -70,7 +70,7 @@
     "typescript": "^4.1.3"
   },
   "private": false,
-  "repository": "https://github.com/GMOD/jbrowse-plugin-quantseq.git",
-  "author": "Elliot Hershberg <eahershberg@gmail.com>",
+  "repository": "https://github.com/YAOJ-bioin/jbrowse-plugin-attrmap.git",
+  "author": "Jie Yao <JieYao@uga.edu>",
   "license": "MIT"
 }

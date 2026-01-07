@@ -12,8 +12,8 @@ import {
   stateModelFactory as QuantitativeSequenceDisplayModelFactory,
 } from './QuantitativeSequenceDisplay'
 
-export default class QuantseqPlugin extends Plugin {
-  name = 'Quantseq'
+export default class AttrMapPlugin extends Plugin {
+  name = 'AttrMap'
   version = version
 
   install(pluginManager: PluginManager) {

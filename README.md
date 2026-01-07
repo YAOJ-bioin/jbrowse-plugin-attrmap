@@ -1,28 +1,31 @@
-![Integration](https://github.com/elliothershberg/jbrowse-plugin-quantseq/workflows/Integration/badge.svg?branch=main)
-
-# jbrowse-plugin-quantseq
+# jbrowse-plugin-attrmap
 
 This is an external plugin for the [JBrowse 2](https://jbrowse.org/jb2/)
 open-source platform for visualizing and integrating biological data.
-This plugin implements a QuantitativeSequence (quantseq) track type. It builds on the concept of a "dynamic sequence (dynseq)" track that was added to the
-awesome [WashU Epigenome Browser](http://epigenomegateway.wustl.edu/).
 
-This track combines the QuantitativeTrack and the ReferenceSequenceTrack from
-JBrowse 2 in order to visualize quantitative data for regulatory genomics at
-base-resolution, such as the predictions of the [BPNet](https://github.com/kundajelab/bpnet) model. Here is what this new track looks like:
+This plugin implements an **Attribution Map (AttrMap)** visualization track for displaying
+sequence-level attribution scores from models like scBasset or BPNet. It renders base-pair
+resolution attribution data as sequence logos, where:
+- ATCG letters replace traditional bar charts
+- Letter height represents attribution score magnitude
+- Positive scores extend upward from baseline
+- Negative scores extend downward (inverted)
+- Each base has fixed width for consistent visualization
+- Letter colors: A=green, T=red, G=yellow, C=blue
 
-![image](https://user-images.githubusercontent.com/19295181/113226964-4a7cf000-9246-11eb-86f2-b7fb9645c8d8.png)
+This plugin builds on the concept of "quantitative sequence" tracks and combines quantitative
+data with reference sequence information for regulatory genomics analysis.
 
 ## Install
 
 ### For use in [JBrowse Web](https://jbrowse.org/jb2/docs/quickstart_web)
 
-No installation required
+Add the plugin to your JBrowse 2 installation by referencing the built plugin file.
 
 ### For use in [`@jbrowse/react-linear-view`](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view)
 
-```
-yarn add jbrowse-plugin-quantseq
+```bash
+yarn add jbrowse-plugin-attrmap
 ```
 
 ## Usage
@@ -33,39 +36,36 @@ Add to the "plugins" of your JBrowse Web config:
 {
   "plugins": [
     {
-      "name": "Quantseq",
-      "url": "https://unpkg.com/jbrowse-plugin-quantseq/dist/jbrowse-plugin-quantseq.umd.production.min.js"
+      "name": "AttrMap",
+      "url": "/path/to/jbrowse-plugin-attrmap.umd.production.min.js"
     }
   ]
 }
 ```
 
-Here is an example track configuration for this view:
+Here is an example track configuration:
 
 ```json
 {
   "type": "QuantitativeTrack",
-  "trackId": "ngmlr_cov",
-  "name": "Nanog importance counts (BPNet)",
-  "assemblyNames": ["hg38"],
+  "trackId": "soybean_ism_attribution",
+  "name": "Soybean ISM Attribution Scores",
+  "assemblyNames": ["Gmax_508_v4.0"],
   "adapter": {
     "type": "QuantitativeSequenceAdapter",
     "wiggleAdapter": {
       "type": "BigWigAdapter",
       "bigWigLocation": {
-        "uri": "https://jbrowse.org/genomes/GRCh38/BPNet/Nanog.importance.counts.bw"
+        "uri": "/path/to/attribution_scores.bw"
       }
     },
     "sequenceAdapter": {
-      "type": "BgzipFastaAdapter",
+      "type": "IndexedFastaAdapter",
       "fastaLocation": {
-        "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz"
+        "uri": "/path/to/reference_genome.fa"
       },
       "faiLocation": {
-        "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.fai"
-      },
-      "gziLocation": {
-        "uri": "https://jbrowse.org/genomes/GRCh38/fasta/hg38.prefix.fa.gz.gzi"
+        "uri": "/path/to/reference_genome.fa.fai"
       }
     }
   },
@@ -78,9 +78,19 @@ Here is an example track configuration for this view:
 }
 ```
 
-This specifies an adapter for where the sequence is derived from, in addition to the where the bigWig data is derived from, and configures the display format.
+This specifies an adapter for where the reference sequence is derived from, in addition to
+where the BigWig attribution data is derived from, and configures the display format as
+sequence logos.
 
-## Contributing
+## Version
 
-We welcome any contributions or PRs to this repo. Developer information for this
-codebase can be found [here](https://github.com/elliothershberg/jbrowse-plugin-quantseq/blob/main/CONTRIBUTING.md)
+Current version: 0.1.0
+
+## Credits
+
+This plugin is based on the original [jbrowse-plugin-quantseq](https://github.com/GMOD/jbrowse-plugin-quantseq)
+by Elliot Hershberg, adapted for attribution map visualization.
+
+## License
+
+MIT
