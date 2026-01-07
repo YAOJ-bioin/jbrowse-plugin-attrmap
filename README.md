@@ -16,17 +16,17 @@ resolution attribution data as sequence logos, where:
 This plugin builds on the concept of "quantitative sequence" tracks and combines quantitative
 data with reference sequence information for regulatory genomics analysis.
 
+## Example Visualization
+
+![AttrMap Sequence Logo Visualization](assets/images/Jb2_attrmap_plugin_example.png)
+
+
 ## Install
 
 ### For use in [JBrowse Web](https://jbrowse.org/jb2/docs/quickstart_web)
 
 Add the plugin to your JBrowse 2 installation by referencing the built plugin file.
 
-### For use in [`@jbrowse/react-linear-view`](https://www.npmjs.com/package/@jbrowse/react-linear-genome-view)
-
-```bash
-yarn add jbrowse-plugin-attrmap
-```
 
 ## Usage
 
@@ -85,6 +85,9 @@ sequence logos.
 ## Version
 
 Current version: 0.1.0
+
+## Citation
+`On pending...`
 
 ## Credits
 
